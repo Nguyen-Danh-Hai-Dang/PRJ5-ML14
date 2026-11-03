@@ -85,7 +85,10 @@ class DigitClassificationModel(Module):
         super().__init__()
         input_size = 28 * 28
         output_size = 10
-        "*** YOUR CODE HERE ***"
+        # Two hidden layers learn nonlinear features from flattened pixels.
+        self.layer1 = Linear(input_size, 256)
+        self.layer2 = Linear(256, 128)
+        self.output = Linear(128, output_size)
 
 
     def forward(self, x):
@@ -102,7 +105,10 @@ class DigitClassificationModel(Module):
             A node with shape (batch_size x 10) containing predicted scores
                 (also called logits)
         """
-        """ YOUR CODE HERE """
+        x = relu(self.layer1(x))
+        x = relu(self.layer2(x))
+        # Cross entropy in the next step will consume raw logits.
+        return self.output(x)
 
 
 

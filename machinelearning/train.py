@@ -1,4 +1,6 @@
 from torch import no_grad
+import torch
+import torch.optim as optim
 from torch.utils.data import DataLoader
 
 
@@ -20,35 +22,79 @@ from torch import movedim
 
 
 def train_perceptron(model, dataset):
-    """
-    Train the perceptron until convergence.
-    You can iterate through DataLoader in order to 
-    retrieve all the batches you need to train on.
-
-    Each sample in the dataloader is in the form {'x': features, 'label': label} where label
-    is the item we need to predict based off of its features.
-    """
     with no_grad():
-        dataloader = DataLoader(dataset, batch_size=1, shuffle=True)
-        "*** YOUR CODE HERE ***"
+        dataloader = DataLoader(
+            dataset,
+            batch_size=1,
+            shuffle=True
+        )
+
+        changed = True
+
+        while changed:
+            changed = False
+
+            for data in dataloader:
+                x = data["x"].reshape(1, -1)
+                y = data["label"].item()
+
+                prediction = model.get_prediction(x)
+
+                if prediction != y:
+                    model.w += y * x
+                    changed = True
 
 
 def train_regression(model, dataset):
-    """
-    Trains the model.
+    dataloader = DataLoader(
+        dataset,
+        batch_size=32,
+        shuffle=True
+    )
 
-    In order to create batches, create a DataLoader object and pass in `dataset` as well as your required 
-    batch size. You can look at PerceptronModel as a guideline for how you should implement the DataLoader
+    optimizer = optim.Adam(
+        model.parameters(),
+        lr=0.001
+    )
 
-    Each sample in the dataloader object will be in the form {'x': features, 'label': label} where label
-    is the item we need to predict based off of its features.
+    for epoch in range(5000):
+        model.train()
 
-    Inputs:
-        model: Pytorch model to use
-        dataset: a PyTorch dataset object containing data to be trained on
-        
-    """
-    "*** YOUR CODE HERE ***"
+        for batch in dataloader:
+            x = batch["x"]
+            y = batch["label"]
+
+            x = x.reshape(-1, 1)
+            y = y.reshape(-1, 1)
+
+            optimizer.zero_grad()
+
+            y_pred = model(x)
+            loss = regression_loss(y_pred, y)
+
+            loss.backward()
+            optimizer.step()
+
+        model.eval()
+
+        with torch.no_grad():
+            data_x = torch.tensor(
+                dataset.x,
+                dtype=torch.float32
+            ).reshape(-1, 1)
+
+            labels = torch.tensor(
+                dataset.y,
+                dtype=torch.float32
+            ).reshape(-1, 1)
+
+            train_loss = regression_loss(
+                model(data_x),
+                labels
+            ).item()
+
+        if train_loss <= 0.02:
+            break
 
 
 def train_digitclassifier(model, dataset):

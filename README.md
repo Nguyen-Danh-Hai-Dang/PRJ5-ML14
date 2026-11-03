@@ -35,3 +35,71 @@ The provided `machinelearning.zip` archive is the baseline. Preserve it unchange
 - [ ] Add or update tests / autograder checks where appropriate.
 - [ ] Record commands, configuration, and results so another member can reproduce them.
 - [ ] Open a PR and obtain review before merging.
+
+## Completed Questions
+
+This section summarizes the implementation and testing results for Questions 1 and 2. The remaining questions are still part of the project.
+
+### Question 1: Perceptron
+
+**Problem:** Implement a Perceptron model for binary classification.
+
+**Implementation:**
+- The model uses a weight vector to calculate a score for each input.
+- The prediction is based on the sign of the score.
+- When the model makes a wrong prediction, it updates the weights using the Perceptron update rule:
+
+  \[
+  w \leftarrow w + yx
+  \]
+
+- The training process continues until the model correctly classifies the training examples.
+
+**Testing:**
+
+Run the Question 1 autograder from the `machinelearning` directory:
+
+```bash
+python autograder.py -q q1 --no-graphics
+```
+
+**Result:** 5/5 points.
+
+### Question 2: Regression
+
+**Problem:** Train a neural network to approximate the function \(y = \sin(x)\) over the interval \([-2\pi, 2\pi]\).
+
+**Implementation:**
+- `RegressionModel` predicts a continuous value from a real-valued input.
+- The model uses a neural network to learn the relationship between input values and their target values.
+- Mean Squared Error (MSE) is used to measure the difference between predictions and true labels.
+- The training process uses backpropagation and an optimizer to update the model parameters.
+- The required final loss is no more than `0.02`.
+
+**Testing:**
+
+Run the Question 2 autograder from the `machinelearning` directory:
+
+```bash
+python autograder.py -q q2 --no-graphics
+```
+
+**Actual result:**
+
+```text
+Your final loss is: 0.019308
+*** PASS: check_regression
+Question q2: 5/5
+```
+
+The final loss is `0.019308`, which is below the required threshold of `0.02`.
+
+### Current Progress
+
+| Question | Result |
+|---|---:|
+| Question 1: Perceptron | 5/5 |
+| Question 2: Regression | 5/5 |
+| **Total** | **10/10** |
+
+These results confirm that Questions 1 and 2 passed the autograder. They do not mean that the entire project is complete.

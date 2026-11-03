@@ -1,16 +1,8 @@
 from torch.nn.functional import mse_loss, cross_entropy
 
 def regression_loss(y_pred, y):
-    """
-    Computes the loss for a batch of examples.
-
-    Inputs:
-        y_pred: a node with shape (batch_size x 1), containing the predicted y-values
-        y: a node with shape (batch_size x 1), containing the true y-values
-            to be used for training
-    Returns: a tensor of size 1 containing the loss
-    """
-    "*** YOUR CODE HERE ***"
+    loss = mse_loss(y_pred, y)
+    return loss.reshape(1)
 
 
 

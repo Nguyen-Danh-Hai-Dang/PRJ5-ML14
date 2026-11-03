@@ -20,9 +20,101 @@ Team 14 project workspace for the CS188 Fall 2025 Machine Learning project.
 - `report/`: report source and supporting materials (to be added).
 - `docs/`: setup, experiment notes, and team workflow documentation.
 
-## Setup
+## Local environment requirements
 
-Use the Python version and packages specified by the official project instructions. Keep the starter code structure unchanged until the team has verified it runs. Do not commit virtual environments, caches, local editor settings, secrets, or generated model checkpoints.
+Install the following on your computer:
+
+- **Python 3.10 or 3.11** (recommended for a consistent team environment).
+- **pip**, included with most Python installations.
+- Python packages: **PyTorch**, **NumPy**, and **Matplotlib**.
+- **Git** to clone the repository and switch branches.
+- Enough free disk space for the repository, datasets, and Python packages.
+
+A GPU is **not required**. CPU execution is fine, although some training questions may take several minutes. Keep the same Python version and package setup across team members where possible.
+
+### 1. Clone the repository
+
+Open PowerShell on Windows, or a terminal on Linux/macOS, then run:
+
+```bash
+git clone https://github.com/Nguyen-Danh-Hai-Dang/PRJ5-ML14.git
+cd PRJ5-ML14
+```
+
+If the repository is private, sign in to GitHub and make sure you have accepted the repository invitation before cloning.
+
+### 2. Create and activate a virtual environment
+
+Run these commands from the repository root.
+
+**Windows PowerShell:**
+
+```powershell
+py -3.11 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+```
+
+If PowerShell blocks activation, you can run the Python commands below through the environment directly, or use Command Prompt and activate with `.venv\\Scripts\\activate.bat`.
+
+**Linux/macOS:**
+
+```bash
+python3.11 -m venv .venv
+source .venv/bin/activate
+```
+
+If Python 3.11 is not installed, install it first or use another supported Python version consistently across the team.
+
+### 3. Install dependencies
+
+With the virtual environment activated, run:
+
+```bash
+python -m pip install --upgrade pip
+python -m pip install torch numpy matplotlib
+```
+
+Verify the packages import successfully:
+
+```bash
+python -c "import torch, numpy, matplotlib; print('PyTorch:', torch.__version__); print('NumPy:', numpy.__version__); print('Matplotlib:', matplotlib.__version__)"
+```
+
+### 4. Run the local autograder
+
+**Important:** change into the `machinelearning` directory before running the autograder. This ensures imports such as `models`, `train`, `losses`, and `backend` resolve correctly.
+
+```bash
+cd machinelearning
+python autograder.py --no-graphics
+```
+
+To test one question only, use `-q` followed by the question number:
+
+```bash
+python autograder.py -q q1 --no-graphics
+python autograder.py -q q2 --no-graphics
+python autograder.py -q q3 --no-graphics
+python autograder.py -q q4 --no-graphics
+python autograder.py -q q5 --no-graphics
+python autograder.py -q q6 --no-graphics
+```
+
+Run the full autograder again after integrating changes from other members. Some questions train models and may take time. Read the output carefully: a test can run without receiving full points if the model does not reach the required accuracy or loss threshold. The provided autograder currently defines checks for Q1–Q6; follow the assignment instructions for any separate Q7/Character-GPT task.
+
+To return to the repository root after testing:
+
+```bash
+cd ..
+```
+
+### Troubleshooting
+
+- **`ModuleNotFoundError: No module named 'torch'` (or `numpy`/`matplotlib`):** activate the virtual environment and rerun the dependency installation command.
+- **`can't open file 'autograder.py'`:** check that your current directory is `machinelearning`.
+- **Dataset not found:** do not delete or rename the provided data files; check that `machinelearning/data/mnist.npz` and `machinelearning/data/lang_id.npz` exist.
+- **PowerShell does not recognize `python`:** try `py` or reinstall Python with the PATH option enabled.
+- **Long-running test:** training tests may take several minutes. Let them finish unless they are clearly stuck.
 
 ## Source archive
 
@@ -103,3 +195,6 @@ The final loss is `0.019308`, which is below the required threshold of `0.02`.
 | **Total** | **10/10** |
 
 These results confirm that Questions 1 and 2 passed the autograder. They do not mean that the entire project is complete.
+## Keep the repository clean
+
+Do not commit virtual environments (`.venv/`), Python caches (`__pycache__/`), local editor settings, secrets, or generated model checkpoints. If these appear in `git status`, do not add them to a commit.

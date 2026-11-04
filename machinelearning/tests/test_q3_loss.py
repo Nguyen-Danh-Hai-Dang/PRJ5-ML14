@@ -1,4 +1,3 @@
-"""Q3 loss contract and numerical checks, independent of training."""
 import math
 import unittest
 

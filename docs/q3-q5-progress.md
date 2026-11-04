@@ -26,3 +26,15 @@ Test gồm ba trường hợp batch size 1, 4, 100; kiểm tra shape logits, gi�
 Phạm vi kết quả: xác nhận forward và đồ thị gradient hoạt động. Nhánh này chưa có loss/huấn luyện Q3 nên chưa chạy autograder q3 hoàn chỉnh và chưa có accuracy cho bước này.
 
 Bước kế tiếp: triển khai digitclassifier_loss và kiểm tra shape (1,), giá trị loss, gradient theo nhãn one-hot.
+
+## Bước 2 — Loss Q3 (03/11/2026)
+
+Hoàn thiện digitclassifier_loss bằng cross_entropy trên logits và nhãn one-hot dạng số thực. Không đổi nhãn sang argmax vì autograder kiểm tra gradient theo nhãn. Kết quả reshape(1) để đúng giao diện chấm.
+
+Kiểm thử thực tế: python -m unittest discover -s tests -v → 3 tests, OK.
+- Logits đều bằng 0 cho loss bằng ln(10).
+- Tăng điểm lớp đúng làm loss giảm; tăng điểm lớp sai làm loss tăng.
+- Loss có shape (1,), gradient logits/nhãn hữu hạn.
+- Kiểm thử mô hình bước 1 vẫn đạt.
+
+Chưa huấn luyện trong bước này. Bước tiếp theo tích hợp train_digitclassifier và chạy autograder q3.

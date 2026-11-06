@@ -125,7 +125,71 @@ def train_languageid(model, dataset):
 
 
 def Train_DigitConvolution(model, dataset):
-    """
-    Trains the model.
-    """
-    """ YOUR CODE HERE """
+    model.train()
+    dataloader = DataLoader(
+    dataset,
+    batch_size=32,
+    shuffle=True
+    )
+
+    optimizer = optim.Adam(
+        model.parameters(),
+        lr=0.001
+    )
+
+    for epoch in range(20):
+        model.train()
+
+        dataloader = DataLoader(
+        dataset,
+        batch_size=32,
+        shuffle=True
+    )
+
+    optimizer = optim.Adam(
+        model.parameters(),
+        lr=0.001
+    )
+
+    for epoch in range(20):
+        model.train()
+
+        dataloader = DataLoader(
+        dataset,
+        batch_size=32,
+        shuffle=True
+    )
+
+    optimizer = optim.Adam(
+        model.parameters(),
+        lr=0.001
+    )
+
+    for epoch in range(20):
+        dataloader = DataLoader(
+            dataset,
+            batch_size=32,
+            shuffle=True
+        )
+
+        optimizer = optim.Adam(
+            model.parameters(),
+            lr=0.001
+        )
+
+    for epoch in range(20):
+        model.train()
+
+        for batch in dataloader:
+            x = movedim(batch["x"], 0, 1)
+            y = batch["label"]
+
+            optimizer.zero_grad()
+
+            y_pred = model(x)
+
+            loss = languageid_loss(y_pred, y)
+
+            loss.backward()
+
+            optimizer.step()

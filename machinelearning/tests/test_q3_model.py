@@ -1,7 +1,3 @@
-"""Step 1: test Q3 forward pass before implementing loss/training.
-
-Run from machinelearning: python -m unittest discover -s tests -v
-"""
 import unittest
 
 import torch

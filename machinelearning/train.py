@@ -99,11 +99,30 @@ def train_regression(model, dataset):
 
 
 def train_digitclassifier(model, dataset):
-    """
-    Trains the model.
-    """
-    model.train()
-    """ YOUR CODE HERE """
+    dataloader = DataLoader(dataset, batch_size=100, shuffle=True)
+    optimizer = optim.Adam(model.parameters(), lr=0.001)
+    best_accuracy = -1.0
+    best_state = None
+    for epoch in range(20):
+        model.train()
+        total_loss = 0.0
+        for batch in dataloader:
+            optimizer.zero_grad()
+            loss = digitclassifier_loss(model(batch['x']), batch['label'])
+            loss.backward()
+            optimizer.step()
+            total_loss += loss.item() * len(batch['x'])
+        model.eval()
+        with no_grad():
+            accuracy = dataset.get_validation_accuracy()
+        print(f'Q3 epoch {epoch + 1}: loss={total_loss / len(dataset):.4f}, validation={accuracy:.2%}')
+        if accuracy > best_accuracy:
+            best_accuracy = accuracy
+            best_state = {key: value.detach().clone() for key, value in model.state_dict().items()}
+        if epoch >= 4 and accuracy >= 0.98:
+            break
+    model.load_state_dict(best_state)
+    model.eval()
 
 
 

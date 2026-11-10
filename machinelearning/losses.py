@@ -1,4 +1,5 @@
 from torch.nn.functional import mse_loss, cross_entropy
+import torch.nn.functional as F
 
 def regression_loss(y_pred, y):
     loss = mse_loss(y_pred, y)
@@ -22,9 +23,8 @@ def digitclassifier_loss(y_pred, y):
     """ YOUR CODE HERE """
 
 
-def languageid_loss(y_pred, y):
-    def languageid_loss(y_pred, y):
-        return cross_entropy(y_pred, y)
+def languageid_loss(predicted_logits, labels):
+    return F.cross_entropy(predicted_logits, labels)
 
 
 def digitconvolution_Loss(y_pred, y):

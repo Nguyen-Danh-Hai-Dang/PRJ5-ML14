@@ -1,8 +1,9 @@
-from torch import no_grad
 import torch
+from torch import no_grad
 import torch.optim as optim
 from torch.utils.data import DataLoader
-
+from torch.utils.data import DataLoader
+from losses import languageid_loss
 
 """
 Functions you should use.
@@ -124,23 +125,32 @@ def train_digitclassifier(model, dataset):
     model.eval()
 
 
+
 def train_languageid(model, dataset):
-    """
-    Trains the model.
-
-    Note that when you iterate through dataloader, each batch will returned as its own vector in the form
-    (batch_size x length of word x self.num_chars). However, in order to run multiple samples at the same time,
-    get_loss() and run() expect each batch to be in the form (length of word x batch_size x self.num_chars), meaning
-    that you need to switch the first two dimensions of every batch. This can be done with the movedim() function 
-    as follows:
-
-    movedim(input_vector, initial_dimension_position, final_dimension_position)
-
-    For more information, look at the pytorch documentation of torch.movedim()
-    """
     model.train()
-    "*** YOUR CODE HERE ***"
 
+    optimizer = optim.Adam(model.parameters(), lr=0.003)
+    batch_size = 32
+
+    while True:
+        model.train()
+
+        for x, y in dataset.iterate_once(batch_size):
+            optimizer.zero_grad()
+
+            logits = model(x)
+
+            loss = languageid_loss(logits, y)
+            loss.backward()
+            optimizer.step()
+
+        val_acc = dataset.get_validation_accuracy()
+        print(f"Validation Accuracy: {val_acc * 100:.2f}%")
+
+        if val_acc >= 0.84:
+            break
+
+    return model
 
 
 def Train_DigitConvolution(model, dataset):

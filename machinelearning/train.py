@@ -151,3 +151,30 @@ def train_languageid(model, dataset):
             break
 
     return model
+
+
+def Train_DigitConvolution(model, dataset):
+    dataloader = DataLoader(dataset, batch_size=25, shuffle=True)
+    optimizer = optim.Adam(model.parameters(), lr=0.001)
+    best_accuracy = -1.0
+    best_state = None
+    for epoch in range(30):
+        model.train()
+        total_loss = 0.0
+        for batch in dataloader:
+            optimizer.zero_grad()
+            loss = digitconvolution_Loss(model(batch['x']), batch['label'])
+            loss.backward()
+            optimizer.step()
+            total_loss += loss.item() * len(batch['x'])
+        model.eval()
+        with no_grad():
+            accuracy = dataset.get_validation_accuracy()
+        print(f'Q5 epoch {epoch + 1}: loss={total_loss / len(dataset):.4f}, validation={accuracy:.2%}')
+        if accuracy > best_accuracy:
+            best_accuracy = accuracy
+            best_state = {key: value.detach().clone() for key, value in model.state_dict().items()}
+        if epoch >= 4 and accuracy >= 0.96:
+            break
+    model.load_state_dict(best_state)
+    model.eval()

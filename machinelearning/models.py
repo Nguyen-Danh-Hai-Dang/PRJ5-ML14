@@ -124,9 +124,9 @@ def Convolve(input: tensor, weight: tensor):
         for col in range(kernel_width):
             if row == 0 and col == 0:
                 continue
-            output.add_(
-                input[..., row:row + out_height, col:col + out_width]
-                * weight[row, col]
+            output.addcmul_(
+                input[..., row:row + out_height, col:col + out_width],
+                weight[row, col],
             )
 
     return output

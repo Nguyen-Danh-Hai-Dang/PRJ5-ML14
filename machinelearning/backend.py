@@ -374,6 +374,24 @@ alphabet above have been substituted with ASCII symbols.""".strip())
 
     def __len__(self):
         return len(self.train_x)
+
+    def iterate_once(self, batch_size):
+        bucket_order = np.random.permutation(len(self.train_buckets))
+
+        for bucket_id in bucket_order:
+            start, end = self.train_buckets[bucket_id]
+
+            indices = np.random.permutation(np.arange(start, end))
+
+            for i in range(0, len(indices), batch_size):
+                batch_indices = indices[i:i + batch_size]
+
+                x, y = self._encode(
+                    self.train_x[batch_indices],
+                    self.train_y[batch_indices]
+                )
+
+                yield x, y
     
     def _encode(self, inp_x, inp_y):
         xs = []

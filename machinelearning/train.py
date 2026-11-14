@@ -116,7 +116,7 @@ def train_digitclassifier(model, dataset):
         if accuracy > best_accuracy:
             best_accuracy = accuracy
             best_state = {key: value.detach().clone() for key, value in model.state_dict().items()}
-        if epoch >= 4 and accuracy >= 0.98:
+        if epoch >= 4 and best_accuracy >= 0.98:
             break
     model.load_state_dict(best_state)
     model.eval()

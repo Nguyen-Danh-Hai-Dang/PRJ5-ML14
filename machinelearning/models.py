@@ -114,18 +114,18 @@ class LanguageIDModel(Module):
 
 
 def Convolve(input: tensor, weight: tensor):
-    height, width = input.shape
+    height, width = input.shape[-2:]
     kernel_height, kernel_width = weight.shape
     out_height = height - kernel_height + 1
     out_width = width - kernel_width + 1
-    output = input[:out_height, :out_width] * weight[0, 0]
+    output = input[..., :out_height, :out_width] * weight[0, 0]
 
     for row in range(kernel_height):
         for col in range(kernel_width):
             if row == 0 and col == 0:
                 continue
             output = output + (
-                input[row:row + out_height, col:col + out_width]
+                input[..., row:row + out_height, col:col + out_width]
                 * weight[row, col]
             )
 
@@ -141,7 +141,7 @@ class DigitConvolutionalModel(Module):
 
     def forward(self, x):
         x = x.reshape(len(x), 28, 28)
-        x = stack([Convolve(sample, self.convolution_weights) for sample in x])
+        x = Convolve(x, self.convolution_weights)
         x = x.flatten(start_dim=1)
         x = relu(self.layer1(x))
         return self.output(x)

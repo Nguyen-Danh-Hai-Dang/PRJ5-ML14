@@ -105,17 +105,14 @@ def train_digitclassifier(model, dataset):
     best_state = None
     for epoch in range(20):
         model.train()
-        total_loss = 0.0
         for batch in dataloader:
             optimizer.zero_grad()
             loss = digitclassifier_loss(model(batch['x']), batch['label'])
             loss.backward()
             optimizer.step()
-            total_loss += loss.item() * len(batch['x'])
         model.eval()
         with no_grad():
             accuracy = dataset.get_validation_accuracy()
-        print(f'Q3 epoch {epoch + 1}: loss={total_loss / len(dataset):.4f}, validation={accuracy:.2%}')
         if accuracy > best_accuracy:
             best_accuracy = accuracy
             best_state = {key: value.detach().clone() for key, value in model.state_dict().items()}
@@ -160,17 +157,14 @@ def Train_DigitConvolution(model, dataset):
     best_state = None
     for epoch in range(30):
         model.train()
-        total_loss = 0.0
         for batch in dataloader:
             optimizer.zero_grad()
             loss = digitconvolution_Loss(model(batch['x']), batch['label'])
             loss.backward()
             optimizer.step()
-            total_loss += loss.item() * len(batch['x'])
         model.eval()
         with no_grad():
             accuracy = dataset.get_validation_accuracy()
-        print(f'Q5 epoch {epoch + 1}: loss={total_loss / len(dataset):.4f}, validation={accuracy:.2%}')
         if accuracy > best_accuracy:
             best_accuracy = accuracy
             best_state = {key: value.detach().clone() for key, value in model.state_dict().items()}

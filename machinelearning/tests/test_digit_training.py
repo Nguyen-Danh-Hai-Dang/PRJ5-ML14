@@ -3,7 +3,7 @@ import unittest
 import torch
 from torch.utils.data import Dataset
 
-from train import train_digitclassifier
+from train import train_digitclassifier, Train_DigitConvolution
 
 
 class ValidationDataset(Dataset):
@@ -43,6 +43,13 @@ class DigitTrainingTest(unittest.TestCase):
 
     def test_q3_respects_epoch_limit_below_threshold(self):
         self.check_training(train_digitclassifier, 0.6, 20)
+
+
+    def test_q5_stops_with_earlier_qualifying_checkpoint(self):
+        self.check_training(Train_DigitConvolution, 0.97, 5)
+
+    def test_q5_respects_epoch_limit_below_threshold(self):
+        self.check_training(Train_DigitConvolution, 0.6, 30)
 
 
 if __name__ == "__main__":

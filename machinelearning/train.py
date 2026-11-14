@@ -168,7 +168,7 @@ def Train_DigitConvolution(model, dataset):
         if accuracy > best_accuracy:
             best_accuracy = accuracy
             best_state = {key: value.detach().clone() for key, value in model.state_dict().items()}
-        if epoch >= 4 and accuracy >= 0.96:
+        if epoch >= 4 and best_accuracy >= 0.96:
             break
     model.load_state_dict(best_state)
     model.eval()

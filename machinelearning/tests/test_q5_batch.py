@@ -3,7 +3,7 @@ import unittest
 import torch
 from torch.nn.functional import conv2d
 
-from models import Convolve
+from models import Convolve, DigitConvolutionalModel
 
 
 class ConvolveBatchTest(unittest.TestCase):
@@ -36,6 +36,23 @@ class ConvolveBatchTest(unittest.TestCase):
         kernel = torch.tensor([[1., 2.], [3., 4.]], dtype=torch.double)
         expected = conv2d(image[:, None], kernel[None, None])[:, 0]
         torch.testing.assert_close(Convolve(image, kernel), expected)
+
+
+    def test_model_values_and_gradients(self):
+        model = DigitConvolutionalModel().double()
+        images = torch.rand(4, 784, dtype=torch.double, requires_grad=True)
+        actual = model(images)
+        features = conv2d(
+            images.reshape(4, 1, 28, 28),
+            model.convolution_weights[None, None],
+        ).flatten(start_dim=1)
+        expected = model.output(model.layer1(features).relu())
+        torch.testing.assert_close(actual, expected)
+        inputs = (images, *model.parameters())
+        actual_gradients = torch.autograd.grad(actual.square().mean(), inputs)
+        expected_gradients = torch.autograd.grad(expected.square().mean(), inputs)
+        for actual_gradient, expected_gradient in zip(actual_gradients, expected_gradients):
+            torch.testing.assert_close(actual_gradient, expected_gradient)
 
 
 if __name__ == "__main__":

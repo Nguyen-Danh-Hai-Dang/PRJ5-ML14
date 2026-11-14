@@ -141,7 +141,7 @@ class DigitConvolutionalModel(Module):
 
     def forward(self, x):
         x = x.reshape(len(x), 28, 28)
-        x = stack([Convolve(sample, self.convolution_weights) for sample in x])
+        x = Convolve(x, self.convolution_weights)
         x = x.flatten(start_dim=1)
         x = relu(self.layer1(x))
         return self.output(x)

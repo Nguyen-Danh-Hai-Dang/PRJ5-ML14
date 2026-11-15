@@ -1,97 +1,142 @@
 # PRJ5-ML14 | CS188 FA25 Project 5
 
-Team 14 project workspace for the CS188 Fall 2025 Machine Learning project.
+**Group 14** — implementation of the CS188 Fall 2025 Machine Learning Project 5.
 
-- Official project page: https://inst.eecs.berkeley.edu/~cs188/archive/fa25/projects/proj5/
-- Team repository: https://github.com/Nguyen-Danh-Hai-Dang/PRJ5-ML14
+- Official assignment: https://inst.eecs.berkeley.edu/~cs188/archive/fa25/projects/proj5/
+- Repository: https://github.com/Nguyen-Danh-Hai-Dang/PRJ5-ML14
+- Main branch: `main`
 
-## Repository workflow
+## Team
 
-1. Keep `main` stable; do not push feature work directly to `main`.
-2. Each member creates a branch for their assigned work, for example `member1/perceptron` or `member3/rnn`.
-3. Make small, focused commits and push the branch.
-4. Open a Pull Request into `main`, explain the change and how it was tested, and request another member to review it.
-5. Merge only after review and resolving conflicts.
-6. Link the relevant branch/PR to the corresponding CoReach task.
+| Member | Student ID | Initial task allocation |
+|---|---:|---|
+| Nguyễn Danh Hải Đăng | 24020056 | Q1 – Perceptron; Q2 – Regression |
+| Mai Thành Đức | 24020078 | Q3 – Digit Classification; Q5 – Convolutional Neural Network |
+| Phạm Công Minh | 23020553 | Q4 – Language Identification |
+| Trần Thế Đức Anh | 24020029 | Q6 – Attention; Q7 – Character-GPT (not included in the completed Q1–Q6 results below) |
 
-## Project structure
+The table records the team's initial task allocation. The repository's commit and Pull Request history records the implementation and integration work as it was actually completed. In particular, some Q3/Q5 implementation commits were authored by Phạm Công Minh, while PRs for those changes were opened by Mai Thành Đức. Nguyễn Danh Hải Đăng also contributed the Q4 dataset-iteration integration fix in PR #11. PR authorship, commit authorship, and initial task allocation are therefore not interchangeable.
 
-- `machinelearning/`: official starter code and required data files from the provided archive.
-- `report/`: report source and supporting materials (to be added).
-- `docs/`: setup, experiment notes, and team workflow documentation.
+## Project status
 
-## Local environment requirements
+Questions **Q1–Q6 are implemented and passed the local autograder** in the team's final integrated run.
 
-Install the following on your computer:
+| Question | Topic | Autograder result | Additional reported metric |
+|---|---|---:|---|
+| Q1 | Perceptron | 5/5 | — |
+| Q2 | Non-linear Regression | 5/5 | Final loss: 0.019308 |
+| Q3 | Digit Classification | 5/5 | 97.38% test accuracy reported in PR #10 |
+| Q4 | Language Identification | 5/5 | 87.2% accuracy in the full-suite run |
+| Q5 | Convolutional Neural Network | 3/3 | — |
+| Q6 | Attention | 2/2 | — |
+| **Total** | | **25/25** | |
 
-- **Python 3.10 or 3.11** (recommended for a consistent team environment).
-- **pip**, included with most Python installations.
-- Python packages: **PyTorch**, **NumPy**, and **Matplotlib**.
-- **Git** to clone the repository and switch branches.
-- Enough free disk space for the repository, datasets, and Python packages.
+**Important notes about the metrics**
 
-A GPU is **not required**. CPU execution is fine, although some training questions may take several minutes. Keep the same Python version and package setup across team members where possible.
+- The 25/25 score is the result of the team's final local Q1–Q6 autograder run.
+- The Q3 accuracy is the value reported in PR #10. It is not presented as a metric measured in the same run as every other value in this table.
+- Q4 training is stochastic, so accuracy can vary between runs. The full-suite run recorded 87.2%; a separate isolated Q4 run produced a different value.
+- Q5's result is reported as an autograder score. No additional test-accuracy value is claimed here.
 
-### 1. Clone the repository
+## Repository structure
 
-Open PowerShell on Windows, or a terminal on Linux/macOS, then run:
+- `machinelearning/`: CS188 Project 5 starter code, implementation files, datasets, and autograder.
+- `README.md`: project overview, setup, test instructions, and team information.
 
-```bash
-git clone https://github.com/Nguyen-Danh-Hai-Dang/PRJ5-ML14.git
-cd PRJ5-ML14
-```
+Keep the supplied datasets in `machinelearning/data/`. The files `mnist.npz` and `lang_id.npz` are required inputs.
 
-If the repository is private, sign in to GitHub and make sure you have accepted the repository invitation before cloning.
+## Environment
 
-### 2. Create and activate a virtual environment
+The project was tested locally on Windows using Python 3.12 and Python 3.14 environments, with PyTorch, NumPy, and Matplotlib. CPU execution is supported; a GPU is not required.
 
-Run these commands from the repository root.
+Recommended setup for a fresh Windows clone:
 
-**Windows PowerShell:**
+- Git
+- Python 3.12
+- pip
+- An internet connection for installing Python packages
+
+## Clone the repository
+
+Open **Windows PowerShell** in the directory where you want the project folder to be created:
 
 ```powershell
-py -3.11 -m venv .venv
+git clone https://github.com/Nguyen-Danh-Hai-Dang/PRJ5-ML14.git
+cd PRJ5-ML14
+git switch main
+git pull origin main
+```
+
+These commands download the repository, enter the project directory, select the submission branch, and synchronize it with the latest remote `main`.
+
+To confirm that you are on the correct branch and have no local modifications:
+
+```powershell
+git branch --show-current
+git status
+git log -1 --oneline
+```
+
+The expected branch name is `main`. Before making a submission copy, `git status` should show a clean working tree.
+
+## Set up Python
+
+Run the following commands from the repository root.
+
+### 1. Create a virtual environment
+
+```powershell
+py -3.12 -m venv .venv
+```
+
+This creates an isolated Python environment in the `.venv` folder. It keeps the project's packages separate from the system-wide Python installation.
+
+### 2. Activate the environment
+
+```powershell
 .\.venv\Scripts\Activate.ps1
 ```
 
-If PowerShell blocks activation, you can run the Python commands below through the environment directly, or use Command Prompt and activate with `.venv\\Scripts\\activate.bat`.
+If PowerShell blocks script activation, either allow activation for the current terminal session:
 
-**Linux/macOS:**
-
-```bash
-python3.11 -m venv .venv
-source .venv/bin/activate
+```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+.\.venv\Scripts\Activate.ps1
 ```
 
-If Python 3.11 is not installed, install it first or use another supported Python version consistently across the team.
+Or run the environment's Python executable directly without activating it:
+
+```powershell
+.\.venv\Scripts\python.exe --version
+```
 
 ### 3. Install dependencies
 
-With the virtual environment activated, run:
+With the virtual environment activated:
 
-```bash
+```powershell
 python -m pip install --upgrade pip
 python -m pip install torch numpy matplotlib
 ```
 
-Verify the packages import successfully:
+Verify the installation:
 
-```bash
+```powershell
 python -c "import torch, numpy, matplotlib; print('PyTorch:', torch.__version__); print('NumPy:', numpy.__version__); print('Matplotlib:', matplotlib.__version__)"
 ```
 
-### 4. Run the local autograder
+## Run the autograder
 
-**Important:** change into the `machinelearning` directory before running the autograder. This ensures imports such as `models`, `train`, `losses`, and `backend` resolve correctly.
+The autograder must be run from inside the `machinelearning` directory.
 
-```bash
+```powershell
 cd machinelearning
 python autograder.py --no-graphics
 ```
 
-To test one question only, use `-q` followed by the question number:
+To test individual questions:
 
-```bash
+```powershell
 python autograder.py -q q1 --no-graphics
 python autograder.py -q q2 --no-graphics
 python autograder.py -q q3 --no-graphics
@@ -100,101 +145,44 @@ python autograder.py -q q5 --no-graphics
 python autograder.py -q q6 --no-graphics
 ```
 
-Run the full autograder again after integrating changes from other members. Some questions train models and may take time. Read the output carefully: a test can run without receiving full points if the model does not reach the required accuracy or loss threshold. The provided autograder currently defines checks for Q1–Q6; follow the assignment instructions for any separate Q7/Character-GPT task.
+Return to the repository root after testing:
 
-To return to the repository root after testing:
-
-```bash
+```powershell
 cd ..
 ```
 
-### Troubleshooting
+Training-based tests can take several minutes. Allow each test to finish and inspect the reported score rather than assuming that starting the autograder means the question passed.
 
-- **`ModuleNotFoundError: No module named 'torch'` (or `numpy`/`matplotlib`):** activate the virtual environment and rerun the dependency installation command.
-- **`can't open file 'autograder.py'`:** check that your current directory is `machinelearning`.
-- **Dataset not found:** do not delete or rename the provided data files; check that `machinelearning/data/mnist.npz` and `machinelearning/data/lang_id.npz` exist.
-- **PowerShell does not recognize `python`:** try `py` or reinstall Python with the PATH option enabled.
-- **Long-running test:** training tests may take several minutes. Let them finish unless they are clearly stuck.
+## Prepare a clean submission copy
 
-## Source archive
+The submission archive should be assembled from the final integrated `main` branch, not from an unfinished feature branch or an old local working folder.
 
-The provided `machinelearning.zip` archive is the baseline. Preserve it unchanged locally and make any implementation changes on feature branches. The `data/mnist.npz` and `data/lang_id.npz` files are required project data, not generated artifacts.
+1. Clone or update `main` using the commands above.
+2. Confirm that `git status` is clean.
+3. Confirm that `machinelearning/` contains the required source files and both datasets.
+4. Include the required IEEE report/template files specified by the course submission instructions.
+5. Do **not** include the `.venv/` directory, `__pycache__/`, temporary logs, local editor settings, or generated checkpoints unless the instructor explicitly requests them.
+6. Create the required archive with the exact filename: `INT3401_11_Nhom14.zip`.
 
-## Contribution checklist
+Do not rename or remove the supplied data files. Keep an untouched copy of the original starter archive separately if it is needed for comparison.
 
-- [ ] Confirm the baseline runs before changing it.
-- [ ] Work on a feature branch.
-- [ ] Add or update tests / autograder checks where appropriate.
-- [ ] Record commands, configuration, and results so another member can reproduce them.
-- [ ] Open a PR and obtain review before merging.
+## Git collaboration workflow
 
-## Completed Questions
+The team used a branch-and-Pull-Request workflow:
 
-This section summarizes the implementation and testing results for Questions 1 and 2. The remaining questions are still part of the project.
+1. Keep `main` as the integrated branch.
+2. Create a separate feature branch for each task.
+3. Commit focused changes and push the feature branch.
+4. Open a Pull Request targeting `main`.
+5. Review the changes and resolve any conflicts before merging.
+6. Run the relevant autograder tests after integration.
 
-### Question 1: Perceptron
+Avoid committing virtual environments, Python caches, secrets, or machine-specific generated files.
 
-**Problem:** Implement a Perceptron model for binary classification.
+## Troubleshooting
 
-**Implementation:**
-- The model uses a weight vector to calculate a score for each input.
-- The prediction is based on the sign of the score.
-- When the model makes a wrong prediction, it updates the weights using the Perceptron update rule:
-
-  \[
-  w \leftarrow w + yx
-  \]
-
-- The training process continues until the model correctly classifies the training examples.
-
-**Testing:**
-
-Run the Question 1 autograder from the `machinelearning` directory:
-
-```bash
-python autograder.py -q q1 --no-graphics
-```
-
-**Result:** 5/5 points.
-
-### Question 2: Regression
-
-**Problem:** Train a neural network to approximate the function \(y = \sin(x)\) over the interval \([-2\pi, 2\pi]\).
-
-**Implementation:**
-- `RegressionModel` predicts a continuous value from a real-valued input.
-- The model uses a neural network to learn the relationship between input values and their target values.
-- Mean Squared Error (MSE) is used to measure the difference between predictions and true labels.
-- The training process uses backpropagation and an optimizer to update the model parameters.
-- The required final loss is no more than `0.02`.
-
-**Testing:**
-
-Run the Question 2 autograder from the `machinelearning` directory:
-
-```bash
-python autograder.py -q q2 --no-graphics
-```
-
-**Actual result:**
-
-```text
-Your final loss is: 0.019308
-*** PASS: check_regression
-Question q2: 5/5
-```
-
-The final loss is `0.019308`, which is below the required threshold of `0.02`.
-
-### Current Progress
-
-| Question | Result |
-|---|---:|
-| Question 1: Perceptron | 5/5 |
-| Question 2: Regression | 5/5 |
-| **Total** | **10/10** |
-
-These results confirm that Questions 1 and 2 passed the autograder. They do not mean that the entire project is complete.
-## Keep the repository clean
-
-Do not commit virtual environments (`.venv/`), Python caches (`__pycache__/`), local editor settings, secrets, or generated model checkpoints. If these appear in `git status`, do not add them to a commit.
+- **`ModuleNotFoundError: No module named 'torch'` (or `numpy` / `matplotlib`):** activate `.venv` and reinstall the dependencies.
+- **`can't open file 'autograder.py'`:** change into `machinelearning` before running the autograder.
+- **Dataset not found:** check that `machinelearning/data/mnist.npz` and `machinelearning/data/lang_id.npz` exist.
+- **PowerShell cannot find `py`:** install Python and enable the Python Launcher, or use the full path to the Python executable.
+- **A test takes a long time:** training-based questions may need several minutes, especially on CPU. Wait for the test to finish unless it has clearly stopped responding.

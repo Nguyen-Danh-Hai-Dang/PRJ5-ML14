@@ -1,25 +1,14 @@
 # PRJ5-ML14 | CS188 FA25 Project 5
 
-**Group 14** — implementation of the CS188 Fall 2025 Machine Learning Project 5.
+Implementation of the CS188 Fall 2025 Machine Learning Project 5.
 
 - Official assignment: https://inst.eecs.berkeley.edu/~cs188/archive/fa25/projects/proj5/
 - Repository: https://github.com/Nguyen-Danh-Hai-Dang/PRJ5-ML14
 - Main branch: `main`
 
-## Team
-
-| Member | Student ID | Initial task allocation |
-|---|---:|---|
-| Nguyễn Danh Hải Đăng | 24020056 | Q1 – Perceptron; Q2 – Regression |
-| Mai Thành Đức | 24020078 | Q3 – Digit Classification; Q5 – Convolutional Neural Network |
-| Phạm Công Minh | 23020553 | Q4 – Language Identification |
-| Trần Thế Đức Anh | 24020029 | Q6 – Attention; Q7 – Character-GPT (not included in the completed Q1–Q6 results below) |
-
-The table records the team's initial task allocation. The repository's commit and Pull Request history records the implementation and integration work as it was actually completed. In particular, some Q3/Q5 implementation commits were authored by Phạm Công Minh, while PRs for those changes were opened by Mai Thành Đức. Nguyễn Danh Hải Đăng also contributed the Q4 dataset-iteration integration fix in PR #11. PR authorship, commit authorship, and initial task allocation are therefore not interchangeable.
-
 ## Project status
 
-Questions **Q1–Q6 are implemented and passed the local autograder** in the team's final integrated run.
+Questions **Q1–Q6 are implemented and passed the local autograder** in the final integrated run.
 
 | Question | Topic | Autograder result | Additional reported metric |
 |---|---|---:|---|
